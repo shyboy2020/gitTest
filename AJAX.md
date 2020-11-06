@@ -121,6 +121,8 @@ function ajaxDemo(){
 
 2.status属性
 
+aaaasss
+
   
 
   
