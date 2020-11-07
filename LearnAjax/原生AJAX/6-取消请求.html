@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>取消请求</title>
+</head>
+<body>
+  <button>点击发送请求</button>
+  <button>点击取消发送请求</button>
+  <script>
+    //获取元素对象
+    const btns = document.querySelectorAll('button')
+    let x = null
+
+    btns[0].onclick = function () {
+      x = new XMLHttpRequest()
+      x.open('GET','http://localhost:8000/delay')
+      x.send()
+    }
+    //abort
+    btns[1].onclick = function () {
+      x.abort()
+    }
+  </script>
+</body>
+</html>

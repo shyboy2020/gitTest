@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX GET 请求</title>
+  <style>
+    #result{
+      width: 200px;
+      height: 100px;
+      border: solid 1px #90b;
+    }
+  </style>
+</head>
+<body>
+  <button>点击发送请求</button>
+  <div id="result"></div>
+
+  <script>
+    const btn = document.getElementsByTagName('button')[0]
+    const result = document.getElementById('result')
+    btn.onclick = function (){
+      //1.创建对象
+      const xhr = new XMLHttpRequest()
+      //2.初始化，设置请求方法和url
+      xhr.open('GET','http://localhost:8000/server')  //get设置参数在url后面加参数，比如?a=100&b=100
+      //3.发送
+      xhr.send()
+      //4.事件绑定，处理服务端返回的结果
+      xhr.onreadystatechange = function (){
+        //判断（服务端返回了所有的结果）
+        if (xhr.readyState === 4){
+          //判断响应状态码 200 404 等
+          //2xx 表示成功接受
+          if (xhr.status >= 200 && xhr.status <300) {
+            //处理结果 行 头 空行 体
+            // console.log(xhr.status)
+            // console.log(xhr.statusText)
+            // console.log(xhr.getAllResponseHeaders())
+            // console.log(xhr.response)
+
+            //设置result文本
+            result.innerHTML = xhr.response
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

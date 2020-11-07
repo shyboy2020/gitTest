@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AJAX JSON 响应</title>
+  <style>
+    #result{
+      width: 200px;
+      height: 100px;
+      border: solid 1px #456;
+    }
+  </style>
+</head>
+<body>
+  <div id="result"></div>
+  <script>
+    const result = document.getElementById('result')
+    //绑定按键按下事件
+    window.onkeydown = function (){
+      //1.创建对象
+      const xhr = new XMLHttpRequest()
+
+      //设置响应体数据的类型
+      xhr.responseType = 'json'
+
+
+      //2.初始化，设置请求方法和url
+      xhr.open('GET','http://localhost:8000/json-server')
+      //3.发送
+      xhr.send()
+      //4.事件绑定
+      xhr.onreadystatechange = function () {
+        //判断
+        if (xhr.readyState === 4){
+          if (xhr.status >= 200&&xhr.status < 300){
+            // result.innerHTML = xhr.response
+            //1.手动对数据改动
+            // let data = JSON.parse(xhr.response)
+            // result.innerHTML = data.name
+            //2.自动修改数据  结合24行
+            result.innerHTML = xhr.response.name
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

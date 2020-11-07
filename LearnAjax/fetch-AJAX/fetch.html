@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>fetch 发送AJAX请求</title>
+</head>
+<body>
+  <button>发送AJAX请求</button>
+  <script>
+    const btns = document.querySelectorAll('button')
+
+    btns[0].onclick = function () {
+      fetch('http://localhost:8000/fetch-server?id=1',{   //url添加头参数
+        method:'POST',
+        headers:{
+          name:'wh'
+        },
+        body:'username=admin&password=admin'
+      }).then(response => {
+        return response.json();
+      }).then(response => {
+        console.log(response);
+      })
+    }
+  </script>
+</body>
+</html>
