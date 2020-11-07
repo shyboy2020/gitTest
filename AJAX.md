@@ -127,6 +127,14 @@ function ajaxDemo(){
 }
 ```
 
+ajax设置get请求参数，加在目标url后面 比如‘?a=100&b=200’
+
+ajax设置post请求参数，加在send()函数中 比如‘?a=100&b=200’
+
+------
+
+
+
 ###  XMLHttpRequest对象的属性
 
 1.readystate属性
@@ -222,9 +230,186 @@ function ajaxDemo(){
 >
 > ​			
 
+# jQuery中的AJAX
+
+## get请求
+
+$.get(url, [data], [callback], [type]) 
+
+url:请求的 URL 地址。
+
+ data:请求携带的参数。
+
+ callback:载入成功时回调函数。
+
+ type:设置返回内容格式，xml, html, script, json, text, _default。
 
 
 
+## post请求
 
-  
+$.post(url, [data], [callback], [type]) 
 
+url:请求的 URL 地址。
+
+ data:请求携带的参数。
+
+ callback:载入成功时回调函数。
+
+ type:设置返回内容格式，xml, html, script, json, text, _default。
+
+
+
+# Axios发送AJAX请求
+
+## get请求
+
+```javascript
+//配置baseURL
+axios.defaults.baseURL = 'http://xxx.xxx.xxx:xxx';
+
+// 为给定 ID 的 user 创建请求  
+axios.get('/user?ID=12345')
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
+// 上面的请求也可以这样做
+axios.get('/user', {
+    params: {
+      ID: 12345
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+```
+
+## post请求
+
+```javascript
+axios.post('/user', {
+    firstName: 'Fred',
+    lastName: 'Flintstone'
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+```
+
+## 用axios函数发送请求
+
+```javascript
+axios({
+        //请求方法
+        method:'POST',
+        //url
+        url:'/axios-server',
+        //url参数
+        params:{
+          id:100,
+          host:5900
+        },
+        //头信息
+        headers:{
+          a:100,
+          b:299
+        },
+        //请求体参数
+        data:{
+          username:'admin',
+          password:'admin'
+        }
+      }).then(response => {
+        //响应状态码
+        console.log(response.status);
+        //响应状态字符串
+        console.log(response.statusText);
+        //响应头信息
+        console.log(response.headers);
+        //响应体信息
+        console.log(response.data);
+      })
+```
+
+#   fetch函数发送AJAX请求
+
+```javascript
+fetch('http://localhost:8000/fetch-server?id=1',{   //url后添加头参数?id=1
+        method:'POST',
+        headers:{
+          name:'wh'
+        },
+        body:'username=admin&password=admin'
+      }).then(response => {
+        return response.json();
+      }).then(response => {
+        console.log(response);
+      })
+```
+
+
+
+------
+
+
+
+# 跨域问题
+
+## 同源策略
+
+> 同源策略（Same-Origin Policy）最早由Netscape公司提出，是浏览器的安全策略
+>
+> 同源就是：协议、域名、端口号必须完全相等
+>
+> 违背了同源策略就是跨域
+
+```javascript
+//客户端
+    const btn = document.querySelector('button')
+    btn.onclick = function () {
+      const x = new XMLHttpRequest()
+      x.open('GET','/data')
+      x.send()
+      x.onreadystatechange = function () {
+        if (x.readyState ===4){
+          if (x.status >=200 && x.status <300){
+            console.log(x.response);
+          }
+        }
+      }
+    }
+
+
+
+//服务端
+const express = require('express')
+const app = express()
+
+app.get('/home',(request,response) => {
+  //响应一个页面
+  response.sendFile(__dirname + '/index.html')
+})
+
+app.get('/data',(request,response) => {
+  //响应数据
+  response.send('用户数据')
+})
+
+app.listen(9000,()=>{
+  console.log('服务启动')
+})
+
+
+```
+
+![sexy](C:\Users\13819\Desktop\sexy.jpg)
